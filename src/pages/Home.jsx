@@ -28,20 +28,44 @@ const sliderImages = [
 export default function Home({ cart, updateCart }) {
   const [index, setIndex] = useState(0);
 
-  // Auto-slide every 2 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % sliderImages.length);
-    }, 2000); 
+    }, 2000);
     return () => clearInterval(timer);
   }, []);
 
   const nextSlide = () => setIndex((prev) => (prev + 1) % sliderImages.length);
-  const prevSlide = () =>
-    setIndex((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
+  const prevSlide = () => setIndex((prev) => (prev - 1 + sliderImages.length) % sliderImages.length);
 
   return (
     <main className="home">
+
+      {/* 🛠️ FORCE LIVE SITE TO SHOW 4/3/2 GRID */}
+      <style>{`
+        .products-grid {
+          display: grid !important;
+          gap: 20px !important;
+          padding: 20px !important;
+          grid-template-columns: repeat(2, 1fr) !important; /* mobile */
+        }
+
+        @media (min-width: 768px) {
+          .products-grid {
+            grid-template-columns: repeat(3, 1fr) !important; /* tablet */
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .products-grid {
+            grid-template-columns: repeat(4, 1fr) !important; /* desktop */
+          }
+        }
+
+        .products-grid > * {
+          width: 100% !important;
+        }
+      `}</style>
 
       {/* SLIDER */}
       <section className="slider">
