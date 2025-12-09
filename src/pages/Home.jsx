@@ -28,10 +28,11 @@ const sliderImages = [
 export default function Home({ cart, updateCart }) {
   const [index, setIndex] = useState(0);
 
+  // ⭐ Slow slider to 2 seconds and allow manual arrows
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % sliderImages.length);
-    }, 2000);
+    }, 2000); // 2 seconds
     return () => clearInterval(timer);
   }, []);
 
@@ -41,29 +42,80 @@ export default function Home({ cart, updateCart }) {
   return (
     <main className="home">
 
-      {/* 🛠️ FORCE LIVE SITE TO SHOW 4/3/2 GRID */}
+      {/* FIX STRETCHING + FORCE GRID EVERYWHERE */}
       <style>{`
+        /* Keep layout centered + premium */
+        .home {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 10px;
+        }
+
+        /* Slider */
+        .slider {
+          position: relative;
+          width: 100%;
+          height: 260px;
+          overflow: hidden;
+          border-radius: 14px;
+          margin-bottom: 30px;
+        }
+
+        .slider-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 14px;
+        }
+
+        .slider-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: rgba(0,0,0,0.4);
+          color: white;
+          border: none;
+          padding: 12px;
+          cursor: pointer;
+          border-radius: 50%;
+          font-size: 22px;
+        }
+
+        .slider-btn.left { left: 15px; }
+        .slider-btn.right { right: 15px; }
+
+        /* PRODUCTS GRID FIX (mobile → 2, tablet → 3, desktop → 4) */
         .products-grid {
           display: grid !important;
           gap: 20px !important;
-          padding: 20px !important;
-          grid-template-columns: repeat(2, 1fr) !important; /* mobile */
+          padding-top: 20px;
+          grid-template-columns: repeat(2, 1fr) !important;
         }
 
         @media (min-width: 768px) {
           .products-grid {
-            grid-template-columns: repeat(3, 1fr) !important; /* tablet */
+            grid-template-columns: repeat(3, 1fr) !important;
           }
         }
 
         @media (min-width: 1024px) {
           .products-grid {
-            grid-template-columns: repeat(4, 1fr) !important; /* desktop */
+            grid-template-columns: repeat(4, 1fr) !important;
           }
         }
 
+        /* Product cards shouldn’t stretch on big screens */
         .products-grid > * {
-          width: 100% !important;
+          width: 100%;
+          max-width: 300px;
+          margin: 0 auto;
+        }
+
+        /* Mobile fix: prevent long stretched card */
+        @media (max-width: 480px) {
+          .products-grid > * {
+            max-width: 90%;
+          }
         }
       `}</style>
 
@@ -71,7 +123,7 @@ export default function Home({ cart, updateCart }) {
       <section className="slider">
         <img src={sliderImages[index]} alt="Slider" className="slider-img" />
 
-        <button className="slider-btn left" onClick={prevSlide}>❮</button>
+<button className="slider-btn left" onClick={prevSlide}>❮</button>
         <button className="slider-btn right" onClick={nextSlide}>❯</button>
       </section>
 
