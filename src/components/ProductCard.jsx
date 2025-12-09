@@ -12,14 +12,23 @@ export default function ProductCard({ product, cart, updateCart }) {
 
   return (
     <div className="product-card">
-      <img src={product.image} alt={product.name} className="product-img" />
-      <h3>{product.name}</h3>
-      <p>{product.desc}</p>
-      <div className="qty-control">
-        <button onClick={decrement}>-</button>
-        <span>{qty}</span>
-        <button onClick={increment}>+</button>
+      {/* Image */}
+      <div className="product-img-box">
+        <img src={product.image} alt={product.name} />
       </div>
+
+      {/* Name + Desc */}
+      <h3 className="product-title">{product.name}</h3>
+      <p className="product-desc">{product.desc}</p>
+
+      {/* Qty Controls */}
+      <div className="qty-control">
+        <button onClick={decrement} className="qty-btn">-</button>
+        <span className="qty-number">{qty}</span>
+        <button onClick={increment} className="qty-btn">+</button>
+      </div>
+
+      {/* Order Button */}
       <a href={checkoutLink} target="_blank" className="order-btn">
         ORDER
       </a>
